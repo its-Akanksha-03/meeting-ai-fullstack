@@ -1,0 +1,52 @@
+<div class="app-layout">
+  <header class="app-header">
+    <div class="logo-container">
+      <div class="logo-icon">🎙️</div>
+      <div>
+        <h1>Meeting Intelligence AI</h1>
+        <p class="subtitle">Whisper ASR & DistilBART Transformer Engine</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <section class="card upload-card">
+      <div class="upload-zone" [class.file-ready]="selectedFile">
+        <label for="file-upload" class="custom-file-upload">
+          <span class="icon">📁</span>
+          <span class="upload-text">
+            {{ selectedFile ? selectedFile.name : 'Click or browse to choose meeting recording (.mp3, .wav, .m4a)' }}
+          </span>
+        </label>
+        <input id="file-upload" type="file" (change)="onFileSelected($event)" accept="audio/*" />
+      </div>
+
+      <div class="actions">
+        <button class="btn-primary" (click)="processAudio()" [disabled]="!selectedFile || loading">
+          <span *ngIf="!loading">🚀 Process & Summarize</span>
+          <span *ngIf="loading" class="spinner-text">⏳ Analyzing Audio Stream...</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="results-section" *ngIf="summary || transcript">
+      <div class="card result-card summary-card">
+        <div class="card-header">
+          <div class="badge badge-summary">📌 Executive Summary</div>
+        </div>
+        <div class="card-body">
+          <p class="summary-content">{{ summary }}</p>
+        </div>
+      </div>
+
+      <div class="card result-card transcript-card">
+        <div class="card-header">
+          <div class="badge badge-transcript">🕒 Timestamped Transcript</div>
+        </div>
+        <div class="card-body">
+          <pre class="transcript-content">{{ transcript }}</pre>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
